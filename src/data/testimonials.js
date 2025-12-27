@@ -1,0 +1,38 @@
+export const testimonials = [
+  {
+    id: 1,
+    name: "James Wilson",
+    role: "Security Engineer at Google",
+    image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400&search_term=professional,man,portrait,business",
+    quote: "CyberShield Academy transformed my career. The hands-on labs and real-world scenarios prepared me perfectly for my role at Google.",
+    course: "Advanced Penetration Testing",
+    rating: 5,
+  },
+  {
+    id: 2,
+    name: "Aisha Patel",
+    role: "SOC Lead at Microsoft",
+    image: "https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg?auto=compress&cs=tinysrgb&w=400&search_term=professional,woman,portrait,business",
+    quote: "The SOC Analyst program gave me the practical skills I needed. Within 3 months of completing it, I was promoted to team lead.",
+    course: "SOC Analyst Level 1",
+    rating: 5,
+  },
+  {
+    id: 3,
+    name: "Carlos Martinez",
+    role: "Penetration Tester at Deloitte",
+    image: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=400&search_term=professional,man,portrait,corporate",
+    quote: "The depth of content in the ethical hacking course is unmatched. I passed my OSCP on the first attempt thanks to this training.",
+    course: "Ethical Hacking Fundamentals",
+    rating: 5,
+  },
+  {
+    id: 4,
+    name: "Elena Novak",
+    role: "Cloud Security Architect at AWS",
+    image: "https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=400&search_term=professional,woman,portrait,tech",
+    quote: "Outstanding cloud security content. The instructors truly understand enterprise-level security challenges.",
+    course: "Cloud Security Essentials",
+    rating: 5,
+  },
+];
