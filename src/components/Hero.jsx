@@ -1,17 +1,66 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { 
   Terminal, 
   Shield, 
   ArrowRight, 
-  Play,
-  Lock,
-  Fingerprint,
-  Wifi
+  Play
 } from "lucide-react";
 
 function Hero() {
+  const [terminalLines, setTerminalLines] = useState([]);
+  const [currentLine, setCurrentLine] = useState(0);
+  const [isTyping, setIsTyping] = useState(true);
+
+  const terminalContent = [
+    { text: "$ initializing_security_scan...", type: "command", delay: 800 },
+    { text: "[✓] Network reconnaissance complete", type: "success", delay: 600 },
+    { text: "[✓] Vulnerability assessment running", type: "success", delay: 700 },
+    { text: "[✓] 3 potential vectors identified", type: "success", delay: 500 },
+    { text: "[!] Exploitable service found: SSH", type: "warning", delay: 800 },
+    { text: "[✓] Initiating penetration test...", type: "success", delay: 600 },
+    { text: "[✓] Brute force protection: ACTIVE", type: "success", delay: 500 },
+    { text: "[✓] SQL injection scan: CLEAN", type: "success", delay: 600 },
+    { text: "[!] XSS vulnerability detected on /api/users", type: "warning", delay: 700 },
+    { text: "[✓] Generating security report...", type: "success", delay: 500 },
+    { text: "[✓] Report saved: /reports/scan_2024.pdf", type: "success", delay: 600 },
+    { text: "$ scan_complete --status=success", type: "command", delay: 800 },
+  ];
+
+  useEffect(() => {
+    if (currentLine < terminalContent.length) {
+      const timer = setTimeout(() => {
+        setTerminalLines(prev => [...prev, terminalContent[currentLine]]);
+        setCurrentLine(prev => prev + 1);
+      }, terminalContent[currentLine].delay);
+      return () => clearTimeout(timer);
+    } else {
+      const resetTimer = setTimeout(() => {
+        setTerminalLines([]);
+        setCurrentLine(0);
+      }, 3000);
+      return () => clearTimeout(resetTimer);
+    }
+  }, [currentLine]);
+
+  const getLineColor = (type) => {
+    switch (type) {
+      case "command": return "text-cyber-400";
+      case "success": return "text-dark-300";
+      case "warning": return "text-yellow-400";
+      default: return "text-dark-300";
+    }
+  };
+
+  const getSymbolColor = (type) => {
+    switch (type) {
+      case "success": return "text-cyber-500";
+      case "warning": return "text-yellow-500";
+      default: return "text-electric-purple";
+    }
+  };
+
   return (
     <section id="home-hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
       <div className="absolute inset-0 bg-dark-950">
@@ -30,7 +79,7 @@ function Hero() {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -95,67 +144,64 @@ function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            <div className="relative bg-dark-900/80 rounded-2xl border border-dark-700 overflow-hidden backdrop-blur-sm">
-              <div className="flex items-center gap-2 px-4 py-3 bg-dark-800/80 border-b border-dark-700">
+            <div className="relative bg-dark-900/90 rounded-2xl border border-dark-700 overflow-hidden backdrop-blur-sm shadow-2xl shadow-cyber-500/10">
+              <div className="flex items-center gap-2 px-4 py-3 bg-dark-800/90 border-b border-dark-700">
                 <div className="flex gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-500"></div>
                   <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                   <div className="w-3 h-3 rounded-full bg-green-500"></div>
                 </div>
                 <div className="flex-1 text-center">
-                  <span className="text-dark-400 text-sm font-mono">terminal@cybershield</span>
+                  <span className="text-dark-400 text-sm font-mono">terminal@cybershield ~ security_scan</span>
                 </div>
               </div>
 
-              <div className="p-6 font-mono text-sm">
-                <div className="text-cyber-400 mb-2">
-                  <span className="text-electric-purple">$</span> initializing_security_scan...
+              <div className="p-6 font-mono text-sm min-h-[400px] max-h-[400px] overflow-hidden relative">
+                <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-dark-900/90 to-transparent z-10 pointer-events-none"></div>
+                <div className="space-y-2">
+                  {terminalLines.map((line, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className={getLineColor(line.type)}
+                    >
+                      {line.type === "command" ? (
+                        <span>
+                          <span className="text-electric-purple">$</span> {line.text.substring(2)}
+                        </span>
+                      ) : (
+                        <span>
+                          [<span className={getSymbolColor(line.type)}>
+                            {line.type === "success" ? "✓" : "!"}
+                          </span>] {line.text.substring(4)}
+                        </span>
+                      )}
+                    </motion.div>
+                  ))}
                 </div>
-                <div className="text-dark-300 mb-2">
-                  [<span className="text-cyber-500">✓</span>] Network reconnaissance complete
-                </div>
-                <div className="text-dark-300 mb-2">
-                  [<span className="text-cyber-500">✓</span>] Vulnerability assessment running
-                </div>
-                <div className="text-dark-300 mb-2">
-                  [<span className="text-cyber-500">✓</span>] 3 potential vectors identified
-                </div>
-                <div className="text-dark-300 mb-2">
-                  [<span className="text-yellow-500">!</span>] Exploitable service found: SSH
-                </div>
-                <div className="text-dark-300 mb-4">
-                  [<span className="text-cyber-500">✓</span>] Report generated successfully
-                </div>
-                <div className="flex items-center text-cyber-400">
+
+                <motion.div 
+                  className="flex items-center text-cyber-400 mt-4"
+                  animate={{ opacity: [1, 0.5, 1] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                >
                   <span className="text-electric-purple">$</span>
-                  <span className="ml-2 border-r-2 border-cyber-500 animate-blink">&nbsp;</span>
-                </div>
+                  <span className="ml-2 border-r-2 border-cyber-500">&nbsp;</span>
+                </motion.div>
+
+                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-dark-900/90 to-transparent pointer-events-none"></div>
+              </div>
+
+              <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                <motion.div
+                  className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyber-500/50 to-transparent"
+                  animate={{ top: ["0%", "100%"] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                />
               </div>
             </div>
-
-            <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 3, repeat: Infinity }}
-              className="absolute -top-6 -right-6 p-4 bg-dark-800/90 rounded-xl border border-cyber-500/30 backdrop-blur-sm"
-            >
-              <Lock className="h-8 w-8 text-cyber-500" />
-            </motion.div>
-
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 4, repeat: Infinity }}
-              className="absolute -bottom-6 -left-6 p-4 bg-dark-800/90 rounded-xl border border-electric-blue/30 backdrop-blur-sm"
-            >
-              <Fingerprint className="h-8 w-8 text-electric-blue" />
-            </motion.div>
-
-            <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 3.5, repeat: Infinity }}
-              className="absolute top-1/2 -right-10 p-4 bg-dark-800/90 rounded-xl border border-electric-purple/30 backdrop-blur-sm"
-            >
-              <Wifi className="h-8 w-8 text-electric-purple" />
-            </motion.div>
           </motion.div>
         </div>
       </div>

@@ -30,7 +30,7 @@ function FeaturedCourses() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {featuredCourses.map((course, index) => (
             <CourseCard key={course.id} course={course} index={index} />
           ))}
