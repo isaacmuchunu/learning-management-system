@@ -9,28 +9,28 @@ function FeaturedCourses() {
   const featuredCourses = courses.filter((course) => course.featured);
 
   return (
-    <section id="featured-courses" className="py-24 bg-dark-950 relative">
+    <section id="featured-courses" className="py-16 bg-dark-950 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-dark-900/50 to-transparent"></div>
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyber-500/10 border border-cyber-500/30 mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyber-500/10 border border-cyber-500/30 mb-3">
             <Sparkles className="h-4 w-4 text-cyber-400" />
             <span className="text-cyber-400 text-sm font-medium">Top-Rated Courses</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3">
             Featured <span className="text-gradient">Courses</span>
           </h2>
-          <p className="text-dark-400 text-lg max-w-2xl mx-auto">
+          <p className="text-dark-400 text-base max-w-2xl mx-auto">
             Start your cybersecurity journey with our most popular and highly-rated training programs.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {featuredCourses.map((course, index) => (
             <CourseCard key={course.id} course={course} index={index} />
           ))}
@@ -40,7 +40,7 @@ function FeaturedCourses() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mt-12"
+          className="text-center mt-8"
         >
           <Link
             to="/courses"

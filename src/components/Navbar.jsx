@@ -76,6 +76,32 @@ function Navbar() {
             ))}
           </div>
 
+            {useAuthStore().user ? (
+              <>
+                <Link
+                  to="/dashboard"
+                  className="text-sm font-medium text-dark-300 hover:text-white transition-colors"
+                >
+                  Dashboard
+                </Link>
+                {useAuthStore().isAdmin && (
+                  <Link
+                    to="/admin"
+                    className="text-sm font-medium text-electric-purple hover:text-purple-400 transition-colors"
+                  >
+                    Admin
+                  </Link>
+                )}
+                <button
+                  onClick={() => useAuthStore().signOut()}
+                  className="text-sm font-medium text-dark-300 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <LogIn className="h-4 w-4" />
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
           <div className="hidden lg:flex items-center gap-4">
             <Link
               to="/login"
@@ -85,8 +111,8 @@ function Navbar() {
               Login
             </Link>
             <Link
-              to="/signup"
-              className="px-5 py-2.5 bg-cyber-500 text-dark-950 font-semibold rounded-lg hover:bg-cyber-400 transition-all duration-300 text-sm glow-border"
+              className="px-4 py-2 bg-cyber-500 text-dark-950 font-semibold rounded-lg hover:bg-cyber-400 transition-all duration-300 text-sm glow-border"
+on-300 text-sm glow-border"
             >
               Start Learning
             </Link>
@@ -94,7 +120,9 @@ function Navbar() {
 
           <button
             className="lg:hidden p-2 text-white"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={()               </>
+            )}
+=> setIsOpen(!isOpen)}
           >
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>

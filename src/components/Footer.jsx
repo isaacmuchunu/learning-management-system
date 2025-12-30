@@ -50,29 +50,29 @@ function Footer() {
 
   return (
     <footer id="main-footer" className="bg-dark-950 border-t border-dark-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-3 mb-6">
-              <Shield className="h-8 w-8 text-cyber-500" />
-              <span className="text-xl font-bold text-white">
+            <Link to="/" className="flex items-center gap-2 mb-4">
+              <Shield className="h-6 w-6 text-cyber-500" />
+              <span className="text-lg font-bold text-white">
                 Cyber<span className="text-cyber-500">Shield</span>
               </span>
             </Link>
-            <p className="text-dark-400 text-sm leading-relaxed mb-6">
+            <p className="text-dark-400 text-sm leading-relaxed mb-4">
               Empowering cybersecurity professionals with world-class training, 
               hands-on labs, and industry-recognized certifications.
             </p>
-            <div className="space-y-3">
-              <div className="flex items-center gap-3 text-dark-400 text-sm">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-dark-400 text-sm">
                 <Mail className="h-4 w-4 text-cyber-500" />
                 <span>contact@cybershield.academy</span>
               </div>
-              <div className="flex items-center gap-3 text-dark-400 text-sm">
+              <div className="flex items-center gap-2 text-dark-400 text-sm">
                 <Phone className="h-4 w-4 text-cyber-500" />
                 <span>+1 (555) 123-4567</span>
               </div>
-              <div className="flex items-center gap-3 text-dark-400 text-sm">
+              <div className="flex items-center gap-2 text-dark-400 text-sm">
                 <MapPin className="h-4 w-4 text-cyber-500" />
                 <span>San Francisco, CA</span>
               </div>
@@ -80,8 +80,8 @@ function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-semibold mb-4">Courses</h4>
-            <ul className="space-y-3">
+            <h4 className="text-white font-semibold mb-3 text-sm">Courses</h4>
+            <ul className="space-y-2">
               {footerLinks.courses.map((link) => (
                 <li key={link.name}>
                   <Link
@@ -96,8 +96,8 @@ function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-semibold mb-4">Company</h4>
-            <ul className="space-y-3">
+            <h4 className="text-white font-semibold mb-3 text-sm">Company</h4>
+            <ul className="space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
                   <Link
@@ -112,8 +112,8 @@ function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-semibold mb-4">Resources</h4>
-            <ul className="space-y-3">
+            <h4 className="text-white font-semibold mb-3 text-sm">Resources</h4>
+            <ul className="space-y-2">
               {footerLinks.resources.map((link) => (
                 <li key={link.name}>
                   <Link
@@ -128,8 +128,8 @@ function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-semibold mb-4">Legal</h4>
-            <ul className="space-y-3">
+            <h4 className="text-white font-semibold mb-3 text-sm">Legal</h4>
+            <ul className="space-y-2">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
                   <Link
@@ -144,8 +144,8 @@ function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-dark-800 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
+        <div className="mt-8 pt-6 border-t border-dark-800 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
             {socialLinks.map((social) => (
               <a
                 key={social.label}
