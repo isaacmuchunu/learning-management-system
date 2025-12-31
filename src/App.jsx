@@ -1,14 +1,17 @@
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Courses from "./pages/Courses";
+import CourseDetail from "./pages/CourseDetail";
 import LearningPathsPage from "./pages/LearningPathsPage";
 import About from "./pages/About";
 import Enterprise from "./pages/Enterprise";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import MyCourses from "./pages/MyCourses";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminCourses from "./pages/admin/AdminCourses";
@@ -24,7 +27,7 @@ function App() {
 
   useEffect(() => {
     initialize();
-  }, []);
+  }, [initialize]);
 
   return (
     <Router>
@@ -48,6 +51,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/courses" element={<Courses />} />
+                <Route path="/courses/:id" element={<CourseDetail />} />
                 <Route path="/learning-paths" element={<LearningPathsPage />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/enterprise" element={<Enterprise />} />
@@ -56,6 +60,11 @@ function App() {
                 <Route path="/dashboard" element={
                   <ProtectedRoute>
                     <Dashboard />
+                  </ProtectedRoute>
+                } />
+                <Route path="/my-courses" element={
+                  <ProtectedRoute>
+                    <MyCourses />
                   </ProtectedRoute>
                 } />
               </Routes>

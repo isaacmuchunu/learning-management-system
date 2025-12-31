@@ -5,18 +5,18 @@ import {
   Shield, 
   Menu, 
   X, 
-  ChevronDown,
-  Terminal,
-  BookOpen,
-  Users,
-  Phone,
-  LogIn
+  LogIn,
+  LogOut,
+  User,
+  LayoutDashboard
 } from "lucide-react";
+import { useAuthStore } from "../store/authStore";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { user, isAdmin, signOut } = useAuthStore();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,6 +33,11 @@ function Navbar() {
     { name: "Enterprise", path: "/enterprise" },
     { name: "About", path: "/about" },
   ];
+
+  const handleLogout = async () => {
+    await signOut();
+    setIsOpen(false);
+  };
 
   return (
     <nav
@@ -76,15 +81,17 @@ function Navbar() {
             ))}
           </div>
 
-            {useAuthStore().user ? (
+          <div className="hidden lg:flex items-center gap-4">
+            {user ? (
               <>
                 <Link
                   to="/dashboard"
-                  className="text-sm font-medium text-dark-300 hover:text-white transition-colors"
+                  className="text-sm font-medium text-dark-300 hover:text-white transition-colors flex items-center gap-2"
                 >
+                  <LayoutDashboard className="h-4 w-4" />
                   Dashboard
                 </Link>
-                {useAuthStore().isAdmin && (
+                {isAdmin && (
                   <Link
                     to="/admin"
                     className="text-sm font-medium text-electric-purple hover:text-purple-400 transition-colors"
@@ -93,36 +100,35 @@ function Navbar() {
                   </Link>
                 )}
                 <button
-                  onClick={() => useAuthStore().signOut()}
+                  onClick={handleLogout}
                   className="text-sm font-medium text-dark-300 hover:text-white transition-colors flex items-center gap-2"
                 >
-                  <LogIn className="h-4 w-4" />
+                  <LogOut className="h-4 w-4" />
                   Logout
                 </button>
               </>
             ) : (
               <>
-          <div className="hidden lg:flex items-center gap-4">
-            <Link
-              to="/login"
-              className="text-sm font-medium text-dark-300 hover:text-white transition-colors flex items-center gap-2"
-            >
-              <LogIn className="h-4 w-4" />
-              Login
-            </Link>
-            <Link
-              className="px-4 py-2 bg-cyber-500 text-dark-950 font-semibold rounded-lg hover:bg-cyber-400 transition-all duration-300 text-sm glow-border"
-on-300 text-sm glow-border"
-            >
-              Start Learning
-            </Link>
+                <Link
+                  to="/login"
+                  className="text-sm font-medium text-dark-300 hover:text-white transition-colors flex items-center gap-2"
+                >
+                  <LogIn className="h-4 w-4" />
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="px-4 py-2 bg-cyber-500 text-dark-950 font-semibold rounded-lg hover:bg-cyber-400 transition-all duration-300 text-sm glow-border"
+                >
+                  Start Learning
+                </Link>
+              </>
+            )}
           </div>
 
           <button
             className="lg:hidden p-2 text-white"
-            onClick={()               </>
-            )}
-=> setIsOpen(!isOpen)}
+            onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -153,20 +159,49 @@ on-300 text-sm glow-border"
                 </Link>
               ))}
               <div className="pt-4 border-t border-dark-700 space-y-3">
-                <Link
-                  to="/login"
-                  onClick={() => setIsOpen(false)}
-                  className="block py-2 text-lg font-medium text-dark-300"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/signup"
-                  onClick={() => setIsOpen(false)}
-                  className="block w-full text-center py-3 bg-cyber-500 text-dark-950 font-semibold rounded-lg"
-                >
-                  Start Learning
-                </Link>
+                {user ? (
+                  <>
+                    <Link
+                      to="/dashboard"
+                      onClick={() => setIsOpen(false)}
+                      className="block py-2 text-lg font-medium text-dark-300"
+                    >
+                      Dashboard
+                    </Link>
+                    {isAdmin && (
+                      <Link
+                        to="/admin"
+                        onClick={() => setIsOpen(false)}
+                        className="block py-2 text-lg font-medium text-electric-purple"
+                      >
+                        Admin Panel
+                      </Link>
+                    )}
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-left py-2 text-lg font-medium text-red-400"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      onClick={() => setIsOpen(false)}
+                      className="block py-2 text-lg font-medium text-dark-300"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/signup"
+                      onClick={() => setIsOpen(false)}
+                      className="block w-full text-center py-3 bg-cyber-500 text-dark-950 font-semibold rounded-lg"
+                    >
+                      Start Learning
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </motion.div>
