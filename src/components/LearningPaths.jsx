@@ -80,7 +80,6 @@ function LearningPaths({ paths }) {
                     </div>
                     <div className="mb-4">
                       <div className="text-xs font-medium text-dark-300 mb-1.5">Skills You Will Learn:</div>
-v>
                       <div className="flex flex-wrap gap-2">
                         {path.skills.map((skill) => (
                           <span
@@ -93,10 +92,10 @@ v>
                       </div>
                     </div>
 
-                    <div className="mb-6">
-                      <div classN                    <div className="mb-4">
+                    <div className="mb-4">
                       <div className="text-xs font-medium text-dark-300 mb-1.5">Career Outcomes:</div>
-           {path.careers.map((career) => (
+                      <div className="flex flex-wrap gap-2">
+                        {path.careers.map((career) => (
                           <span
                             key={career}
                             className="px-3 py-1 text-xs bg-cyber-500/10 text-cyber-400 rounded-full border border-cyber-500/30"

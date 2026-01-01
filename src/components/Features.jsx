@@ -52,15 +52,22 @@ function Features() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="group relative bg-dark-900/30 rounded-xl p-5 border border-dark-700 hover:border-cyber-500/30 transition-all duration-300"
-der-dark-700 hover:border-cyber-500/30 transition-all duration-300"
               >
-                <div className="absolute inset-0 bg-gradient-to-br                 <div className="absolute inset-0 bg-gradient-to-br from-cyber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
-className="w-14 h-14 flex items-center justify-center rounded-xl bg-dark-800 border border-dark-600 group-hover:border-cyber-500/50 group-hover:bg-dark-700 transition-all m                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-dark-800 border border-dark-600 group-hover:border-cyber-500/50 group-hover:bg-dark-700 transition-all mb-4">
+                <div className="absolute inset-0 bg-gradient-to-br from-cyber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+                <div className="relative">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-dark-800 border border-dark-600 group-hover:border-cyber-500/50 group-hover:bg-dark-700 transition-all mb-4">
                     <IconComponent className="h-6 w-6 text-cyber-500" />
-</h3>
-                  <p className="text-dark-400 leading-relaxed">
-                     <h3 className="text-lg font-bold text-white mb-2 group-hover:text-cyber-400 transition-colors">
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-cyber-400 transition-colors">
+                    {feature.title}
+                  </h3>
+                  <p className="text-dark-400 text-sm leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+              </motion.div>
             );
           })}
         </div>
@@ -70,5 +77,3 @@ className="w-14 h-14 flex items-center justify-center rounded-xl bg-dark-800 bor
 }
 
 export default Features;
-
-                  <p className="text-dark-400 text-sm leading-relaxed">

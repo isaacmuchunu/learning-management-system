@@ -11,6 +11,8 @@ import {
   LayoutDashboard
 } from "lucide-react";
 import { useAuthStore } from "../store/authStore";
+import SearchBar from "./SearchBar";
+import NotificationSystem from "./NotificationSystem";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -82,6 +84,8 @@ function Navbar() {
           </div>
 
           <div className="hidden lg:flex items-center gap-4">
+            <SearchBar />
+            {user && <NotificationSystem />}
             {user ? (
               <>
                 <Link
