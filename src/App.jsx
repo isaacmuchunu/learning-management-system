@@ -1,79 +1,116 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useAuthStore } from "./store/authStore";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
-import Courses from "./pages/Courses";
-import CourseDetail from "./pages/CourseDetail";
-import LearningPathsPage from "./pages/LearningPathsPage";
-import About from "./pages/About";
-import Enterprise from "./pages/Enterprise";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
-import MyCourses from "./pages/MyCourses";
-import AdminLayout from "./pages/admin/AdminLayout";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminCourses from "./pages/admin/AdminCourses";
-import AdminUsers from "./pages/admin/AdminUsers";
-import AdminAnalytics from "./pages/admin/AdminAnalytics";
-import AdminSettings from "./pages/admin/AdminSettings";
-import AdminContent from "./pages/admin/AdminContent";
-import ProtectedRoute from "./components/ProtectedRoute";
-import { useAuthStore } from "./store/authStore";
+import Courses from "./pages/Courses";
+import CourseDetails from "./pages/CourseDetails";
+import AdminDashboard from "./pages/AdminDashboard";
+import LabsPage from "./pages/LabsPage";
+import LiveSessionsPage from "./pages/LiveSessionsPage";
+import LearningPathsPage from "./pages/LearningPathsPage";
+import DocumentationPage from "./pages/DocumentationPage";
+import CertificatesPage from "./pages/CertificatesPage";
+import VideoPlayerPage from "./pages/VideoPlayerPage";
+
+function ProtectedRoute({ children, adminOnly = false }) {
+  const { user, isAdmin, loading } = useAuthStore();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-dark-950 flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-cyber-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (adminOnly && !isAdmin) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return children;
+}
 
 function App() {
-  const { initialize } = useAuthStore();
+  const { checkAuth } = useAuthStore();
 
   useEffect(() => {
-    initialize();
-  }, [initialize]);
+    checkAuth();
+  }, [checkAuth]);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/admin/*" element={
-          <ProtectedRoute adminOnly>
-            <AdminLayout />
-          </ProtectedRoute>
-        }>
-          <Route index element={<AdminDashboard />} />
-          <Route path="courses" element={<AdminCourses />} />
-          <Route path="users" element={<AdminUsers />} />
-          <Route path="analytics" element={<AdminAnalytics />} />
-          <Route path="settings" element={<AdminSettings />} />
-          <Route path="content" element={<AdminContent />} />
-        </Route>
-        <Route path="*" element={
-          <div className="min-h-screen bg-dark-950 flex flex-col">
-            <Navbar />
-            <div className="flex-1">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/courses" element={<Courses />} />
-                <Route path="/courses/:id" element={<CourseDetail />} />
-                <Route path="/learning-paths" element={<LearningPathsPage />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/enterprise" element={<Enterprise />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/dashboard" element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                } />
-                <Route path="/my-courses" element={
-                  <ProtectedRoute>
-                    <MyCourses />
-                  </ProtectedRoute>
-                } />
-              </Routes>
-            </div>
-            <Footer />
-          </div>
-        } />
-      </Routes>
-    </Router>
+    <div className="min-h-screen bg-dark-950 flex flex-col">
+      <Navbar />
+      <div className="flex-1">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/courses/:id" element={<CourseDetails />} />
+          <Route path="/learning-paths" element={<LearningPathsPage />} />
+          <Route path="/docs" element={<DocumentationPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/labs"
+            element={
+              <ProtectedRoute>
+                <LabsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/live"
+            element={
+              <ProtectedRoute>
+                <LiveSessionsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/certificates"
+            element={
+              <ProtectedRoute>
+                <CertificatesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/video/:courseId/:lessonId"
+            element={
+              <ProtectedRoute>
+                <VideoPlayerPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
+      <Footer />
+    </div>
   );
 }
 
