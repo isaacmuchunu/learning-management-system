@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuthStore } from "./store/authStore";
 import Navbar from "./components/Navbar";
@@ -16,6 +15,12 @@ import LearningPathsPage from "./pages/LearningPathsPage";
 import DocumentationPage from "./pages/DocumentationPage";
 import CertificatesPage from "./pages/CertificatesPage";
 import VideoPlayerPage from "./pages/VideoPlayerPage";
+import CommunityPage from "./pages/CommunityPage";
+import GamificationPage from "./pages/GamificationPage";
+import GlobalSearch from "./components/GlobalSearch";
+import NotificationCenter from "./components/NotificationCenter";
+import AIChatbot from "./components/AIChatbot";
+import { useNotificationStore } from "./store/notificationStore";
 
 function ProtectedRoute({ children, adminOnly = false }) {
   const { user, isAdmin, loading } = useAuthStore();
@@ -41,14 +46,36 @@ function ProtectedRoute({ children, adminOnly = false }) {
 
 function App() {
   const { checkAuth } = useAuthStore();
+  const { unreadCount } = useNotificationStore();
+  const [showSearch, setShowSearch] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setShowSearch(true);
+      }
+      if (e.key === "Escape") {
+        setShowSearch(false);
+        setShowNotifications(false);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <div className="min-h-screen bg-dark-950 flex flex-col">
-      <Navbar />
+      <Navbar 
+        onSearchClick={() => setShowSearch(true)} 
+        onNotificationClick={() => setShowNotifications(!showNotifications)}
+        unreadCount={unreadCount}
+      />
       <div className="flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -91,6 +118,22 @@ function App() {
             }
           />
           <Route
+            path="/community"
+            element={
+              <ProtectedRoute>
+                <CommunityPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/gamification"
+            element={
+              <ProtectedRoute>
+                <GamificationPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/video/:courseId/:lessonId"
             element={
               <ProtectedRoute>
@@ -110,6 +153,9 @@ function App() {
         </Routes>
       </div>
       <Footer />
+      <GlobalSearch isOpen={showSearch} onClose={() => setShowSearch(false)} />
+      <NotificationCenter isOpen={showNotifications} onClose={() => setShowNotifications(false)} />
+      <AIChatbot />
     </div>
   );
 }
